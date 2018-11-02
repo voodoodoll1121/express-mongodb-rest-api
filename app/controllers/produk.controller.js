@@ -70,6 +70,7 @@ exports.findOne = (req, res) => {
                     message: "Produk not found with id " + req.params.produkId
                 });
             }
+
             res.send(produk);
         }).catch(err => {
             if (err.kind === 'ObjectId') {
@@ -116,6 +117,7 @@ exports.update = (req, res) => {
                             message: "Produk not found with id " + req.params.produkId
                         });
                     }
+
                     res.send(produk);
                 }).catch(err => {
                     if (err.kind === 'ObjectId') {

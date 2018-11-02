@@ -43,6 +43,7 @@ exports.findOne = (req, res) => {
                     message: "Kategori not found with id " + req.params.kategoriId
                 });
             }
+
             res.send(kategori);
         }).catch(err => {
             if (err.kind === 'ObjectId') {
