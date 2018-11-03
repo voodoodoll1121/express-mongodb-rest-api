@@ -1,5 +1,5 @@
 const Kategori = require('../model/kategori.model');
-
+const Produk = require('../model/produk.model');
 //create and save kategori
 exports.create = (req, res) => {
     if (!req.body.nama_kategori) {
@@ -98,7 +98,24 @@ exports.delete = (req, res) => {
                     message: "Kategori not found with id " + req.params.kategoriId
                 });
             }
-            res.send({ message: "Kategori deleted successfully!" });
+            Produk.deleteMany({ kategori: req.params.kategoriId })
+                .then(produks => {
+                    if (!kategori) {
+                        return res.status(404).send({
+                            message: "Kategori not found with id " + req.params.kategoriId
+                        });
+                    }
+                    res.send({ message: "Kategori deleted successfully!" });
+                }).catch(err => {
+                    if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+                        return res.status(404).send({
+                            message: "Kategori not found with id " + req.params.kategoriId
+                        });
+                    }
+                    return res.status(500).send({
+                        message: "Could not delete note with id " + req.params.kategoriId
+                    });
+                });
         }).catch(err => {
             if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                 return res.status(404).send({
